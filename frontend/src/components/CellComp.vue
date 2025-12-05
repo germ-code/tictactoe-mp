@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 
 defineProps<{
     symbol: string
 }>()
 
-const isSelected = ref(false)
+defineEmits<{
+(e: 'symbolSwitch'): void
+}>()
 
-// const playerAction = () => {
-// }
+
+const ifCellIsClicked = defineModel('selected', {required: true})
+
 </script>
 
 <template>
-    <div @click="isSelected = true" class="col">
-        <div v-if="isSelected" class="symbolInCell">{{ $props.symbol }}</div>
+    <div @click="ifCellIsClicked = symbol; $emit('symbolSwitch')" class="col"> <!-- When clicked, sets the var -->
+        <div class="symbolInCell" v-if="ifCellIsClicked">{{ ifCellIsClicked }}</div> <!-- renders symbol after reading update from vmodel -->
     </div>
 </template>
 
 
 <style scoped>
 .col {
-    display: flex;
+  display: flex;
   border-radius: 5px;
   border: solid;
   width: 50px;
